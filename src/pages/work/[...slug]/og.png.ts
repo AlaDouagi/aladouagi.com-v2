@@ -26,6 +26,10 @@ export async function GET({ props, request }: Props) {
   //       : path.resolve(post.data.cover.src.replace("/", "dist/"))
   //   );
 
+  console.log(`url("${
+    new URL(request.url).origin
+  }/assets/og-bg.png")`);
+  
   // Astro doesn't support tsx endpoints so usign React-element objects
   const html = {
     type: "div",
