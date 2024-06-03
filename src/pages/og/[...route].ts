@@ -5,9 +5,7 @@ import { getCollection } from "astro:content";
 const blogs = await getCollection("work");
 
 // Transform the collection into an object
-const pages = Object.fromEntries(
-  blogs.map(({ id, slug, data }) => [id, { data, slug }])
-);
+const pages = Object.fromEntries(blogs.map(({ slug, data }) => [slug, data]));
 
 export const { getStaticPaths, GET } = OGImageRoute({
   param: "route",
