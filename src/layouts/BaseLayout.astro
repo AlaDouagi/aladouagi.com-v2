@@ -10,20 +10,14 @@ import Footer from '../components/Footer.astro';
 interface Props {
 	title?: string | undefined;
 	description?: string | undefined;
-	ogImg?: string
 }
 
-const { title, description, ogImg } = Astro.props;
+const { title, description } = Astro.props;
 ---
 
 <html lang="en">
 	<head>
 		<MainHead title={title} description={description} />
-		<meta property="og:image" content={ogImg} />
-
-		<!-- Optional: Set the width and height of the OG image -->
-		<meta property="og:image:width" content="1200" />
-		<meta property="og:image:height" content="630" />
 	</head>
 	<body>
 		<div class="stack backgrounds">
