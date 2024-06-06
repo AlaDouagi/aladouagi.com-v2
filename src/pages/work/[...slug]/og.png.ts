@@ -9,6 +9,11 @@ interface Props {
   request: Request;
 }
 
+const AUTHOR_NAME = "Alaeddine Douagi"
+const AUTHOR_JOB_TITLE = "Web Developer"
+const OG_BG_ROUTE = "/assets/og-bg-raw.jpg"
+const AUTHOR_PIC_ROUTE = "/assets/portrait-square.jpg"
+
 export async function GET({ props, request }: Props) {
   const { post } = props;
 
@@ -26,15 +31,12 @@ export async function GET({ props, request }: Props) {
   //       : path.resolve(post.data.cover.src.replace("/", "dist/"))
   //   );
 
-  console.log(`url("${
-    new URL(request.url).origin
-  }/assets/og-bg.png")`);
-  
   // Astro doesn't support tsx endpoints so usign React-element objects
   const html = {
     type: "div",
     props: {
       style: {
+        position: "relative",
         height: "100%",
         width: "100%",
         display: "flex",
@@ -43,15 +45,13 @@ export async function GET({ props, request }: Props) {
         justifyContent: "center",
         backgroundImage: `url("${
           new URL(request.url).origin
-        }/assets/og-bg.png")`,
+      }${OG_BG_ROUTE}")`,
       },
       children: [
         {
           type: "div",
           props: {
             style: {
-              marginLeft: 190,
-              marginRight: 190,
               display: "flex",
               fontSize: 130,
               fontFamily: "Kaisei Tokumin",
@@ -60,8 +60,76 @@ export async function GET({ props, request }: Props) {
               color: "white",
               lineHeight: "120px",
               whiteSpace: "pre-wrap",
+              margin: "auto 190px",
             },
             children: post.data.title,
+          },
+        },
+        {
+          type: "div",
+          props: {
+            style: {
+              postion: "absolute",
+              bottom: "3rem",
+              marginTop: "auto",
+              display: "flex",
+              width: "100%",
+              height: "190px",
+              padding: "0 190px",
+            },
+            children: [
+              {
+                type: "div",
+                props: {
+                  style: {
+                    position: "relative",
+                    height: "160px",
+                    width: "160px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    justifyContent: "center",
+                    backgroundImage: `url("${
+                      new URL(request.url).origin
+                    }${AUTHOR_PIC_ROUTE}")`,
+                    backgroundSize: "160px 160px",
+                    borderRadius: "100%",
+                  },
+                },
+              },
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%",
+                    color: "white",
+                    paddingLeft: 32,
+                  },
+                  children: [
+                    {
+                      type: "span",
+                      props: {
+                        style: {
+                          fontSize: 54,
+                        },
+                        children: AUTHOR_NAME,
+                      },
+                    },
+                    {
+                      type: "span",
+                      props: {
+                        style: {
+                          fontSize: 36,
+                        },
+                        children: AUTHOR_JOB_TITLE,
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
           },
         },
       ],
