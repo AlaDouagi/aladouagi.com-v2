@@ -13,15 +13,12 @@ const AUTHOR_NAME = "Alaeddine Douagi";
 const AUTHOR_JOB_TITLE = "Web Developer";
 const OG_BG_ROUTE = "/assets/og-bg-raw.jpg";
 const AUTHOR_PIC_ROUTE = "/assets/portrait-square.jpg";
-let SITE_URL = "https://aladouagi-com-v2.vercel.app";
-
-const stripTrailingSlash = (s: string) =>
-  s.endsWith("/") ? s.slice(0, -1) : s;
 
 export async function GET({ props, request }: Props) {
   const { post } = props;
 
-  SITE_URL = stripTrailingSlash(new URL(request.url).origin);
+  const OG_BG_URL = new URL(OG_BG_ROUTE, request.url).href;
+  const AUTHOR_PIC_URL = new URL(AUTHOR_PIC_ROUTE, request.url).href;
 
   // using custom font files
   const FontBold = fs.readFileSync(
@@ -49,7 +46,7 @@ export async function GET({ props, request }: Props) {
         flexDirection: "column",
         alignItems: "flex-start",
         justifyContent: "center",
-        backgroundImage: `url("${SITE_URL}${OG_BG_ROUTE}")`,
+        backgroundImage: `url("${OG_BG_URL}")`,
       },
       children: [
         {
@@ -93,7 +90,7 @@ export async function GET({ props, request }: Props) {
                     flexDirection: "column",
                     alignItems: "flex-start",
                     justifyContent: "center",
-                    backgroundImage: `url("${SITE_URL}${AUTHOR_PIC_ROUTE}")`,
+                    backgroundImage: `url("${AUTHOR_PIC_URL}")`,
                     backgroundSize: "160px 160px",
                     borderRadius: "100%",
                   },
