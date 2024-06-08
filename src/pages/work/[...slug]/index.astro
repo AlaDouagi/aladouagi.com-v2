@@ -23,7 +23,7 @@ export async function getStaticPaths() {
     params: { slug: entry.slug },
     props: {
       entry,
-      image: `/work/${entry.slug}/og.png`,
+      image: `/assets/blog-ogs/${entry.slug}.png`,
       canonicalUrl: `/work/${entry.slug}`,
     },
   }));

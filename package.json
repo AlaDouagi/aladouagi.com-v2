@@ -4,10 +4,11 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
+    "start": "npm run dev & npm run og-watch",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "og-watch": "node --watch-path=./src/content/work ./src/scripts/generate-og-images.js"
   },
   "dependencies": {
     "@astrojs/check": "^0.7.0",
@@ -17,6 +18,8 @@
     "typescript": "^5.4.5"
   },
   "devDependencies": {
-    "@types/node": "^20.14.0"
+    "@types/node": "^20.14.0",
+    "@types/tcp-port-used": "^1.0.4",
+    "tcp-port-used": "^1.0.2"
   }
 }
