@@ -8,7 +8,8 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "og-watch": "node --watch-path=./src/content/work ./src/scripts/generate-og-images.js"
+    "og-watch": "node --watch-path=./src/content/work ./src/scripts/generate-og-images.js",
+    "prepare": "husky && husky install"
   },
   "dependencies": {
     "@astrojs/check": "^0.7.0",
@@ -20,6 +21,13 @@
   "devDependencies": {
     "@types/node": "^20.14.0",
     "@types/tcp-port-used": "^1.0.4",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
+    "prettier": "3.3.2",
+    "prettier-plugin-astro": "^0.14.0",
     "tcp-port-used": "^1.0.2"
+  },
+  "lint-staged": {
+    "*.{js,css,md,astro,tsx,jsx,json,mjs}": "prettier --write"
   }
 }
