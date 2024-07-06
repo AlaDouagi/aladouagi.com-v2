@@ -14,14 +14,14 @@
   "dependencies": {
     "@astrojs/check": "^0.7.0",
     "@astrojs/tailwind": "^5.1.0",
-    "@astrojs/vercel": "^7.6.0",
+    "@astrojs/vercel": "^7.7.2",
     "@vercel/og": "^0.6.2",
-    "astro": "^4.9.2",
+    "astro": "^4.11.5",
     "tailwindcss": "^3.4.4",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.3"
   },
   "devDependencies": {
-    "@types/node": "^20.14.0",
+    "@types/node": "^20.14.10",
     "@types/tcp-port-used": "^1.0.4",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
