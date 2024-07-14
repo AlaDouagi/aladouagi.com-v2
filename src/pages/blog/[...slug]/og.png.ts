@@ -5,7 +5,7 @@ import { ImageResponse } from "@vercel/og";
 
 interface Props {
   params: { slug: string };
-  props: { post: CollectionEntry<"work"> };
+  props: { post: CollectionEntry<"blog"> };
   request: Request;
 }
 
@@ -150,7 +150,7 @@ export async function GET({ props, request }: Props) {
 
 // to generate an image for each blog posts in a collection
 export async function getStaticPaths() {
-  const blogPosts = await getCollection("work");
+  const blogPosts = await getCollection("blog");
   return blogPosts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
