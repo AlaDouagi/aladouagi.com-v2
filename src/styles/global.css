@@ -200,3 +200,8 @@ h5 {
 .stack {
   @apply flex flex-col;
 }
+
+ul,
+ol {
+  list-style: revert;
+}

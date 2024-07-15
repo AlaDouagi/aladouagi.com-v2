@@ -1,0 +1,164 @@
+---
+title: 'Reactive Search with RxJS and React Shadcn'
+publishDate: 2024-07-15 00:00:00
+img: /assets/blog-ogs/reactive-search-with-rxjs-and-react-shadcn.png
+description: Short introduction to functional programming.
+tags:
+  - TypeScript
+  - Reactive Programming
+  - RxJS
+  - Shadcn
+  - React
+---
+
+### Background
+
+In most applications that have a feature requiring data listing, we encounter
+the need for a debounced search input to present data.
+
+After writing this kind of component in the past using Angular or React, I
+discovered it’s one of the best scenarios to rely on Reactive programming using
+RxJS.
+
+### Starting point
+
+For the requirements that we need to cover for a basic search functionality is
+to:
+
+- Trigger the HTTP search request whenever the trimmed input value is changed
+  after `debounceTime`.
+- Cancel previous request if it's still pending AND a new search value has
+  arrived after it passed the `debounceTime`
+- Return an empty array if an error happens without breaking the flow
+
+### Reasoning
+
+Considering the code to solve the above problem, we're mostly relying on the
+**timing** and **content** of the **search string**. This leads to the idea of
+having an Observable of a search string as the root source of our stream.
+
+Below is the full code of the function explained with comments that generate
+this stream. After having this as the base logic for the debounced search, we
+will reuse it in a React hook.
+
+```typescript
+import {type Dispatch, type SetStateAction} from 'react'
+import {
+  type Observable,
+  Subject,
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  merge,
+  of,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs'
+
+export const DEBOUNCE_TIME = 500
+
+export function searchObserver$<T>(
+  textSubject$: Subject<string>,
+  fetcher$: (text: string) => Observable<T[]>,
+  {
+    setIsLoading,
+    setOptions,
+  }: {
+    setIsLoading: Dispatch<SetStateAction<boolean>>
+    setOptions: Dispatch<SetStateAction<T[]>>
+  },
+  debounceTimeout = DEBOUNCE_TIME,
+) {
+  return textSubject$.pipe(
+    // Trim the search string
+    map((query = '') => query?.trim()),
+    // Listen only for a string that has charcters (No "  " passing)
+    filter<string>(Boolean),
+    // Debounce the search stream
+    debounceTime(debounceTimeout),
+    // Extra: Don't trigger search of you change the string and revert it quicky before debounceTimeout
+    distinctUntilChanged(),
+    // Trigger loading event
+    tap(() => setIsLoading(true)),
+    // Trigger search HTTP request
+    switchMap((text) => fetcher$(text).pipe(takeUntil(textSubject$))), // Cancel previous request if it's still pending
+    // Resolve loading state and set results
+    tap((opts) => {
+      setOptions(opts)
+      setIsLoading(false)
+    }),
+    catchError((_error, caught) => {
+      // Reset state in case of an error
+      setOptions([])
+      setIsLoading(false)
+      // Respawn the stream after it completed running with an error
+      return merge(of([] as T[]), caught)
+    }),
+  )
+}
+```
+
+### Inegrate Reactivity using React hooks
+
+```typescript
+import {type Dispatch, type SetStateAction, useEffect, useRef} from 'react'
+import {type Observable, Subject} from 'rxjs'
+import {searchObserver$} from './searchObserver'
+
+export function useSearch<T>(
+  fetcher$: (text: string) => Observable<T[]>,
+  componentSetters: {
+    setIsLoading: Dispatch<SetStateAction<boolean>>
+    setOptions: Dispatch<SetStateAction<T[]>>
+  },
+  debounceTime?: number,
+) {
+  const textSubject$ = useRef(new Subject<string>())
+
+  useEffect(() => {
+    const watcher = searchObserver$<T>(
+      textSubject$.current,
+      fetcher$,
+      componentSetters,
+      debounceTime,
+    ).subscribe()
+
+    return () => watcher.unsubscribe()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return (text: string) => textSubject$.current.next(text)
+}
+```
+
+### HTTP Request logic to be used
+
+Since we have HTTP request cancellation in our logic, we need to handle it.
+Luckily, we have an out-of-the-box function ready to use with this flow thanks
+to RxJS.
+
+The fromFetch function is fetch API based but is adapted to Reactivity needs.
+The code below is for the search fetcher that we use in our demo:
+
+```typescript
+import {fromFetch} from 'rxjs/fetch'
+import {map, type Observable} from 'rxjs'
+import {type Option} from '../components/autocomplete'
+
+const URL = `https://digimoncard.io/api-public/search.php`
+
+export function searchDigimonCards$(search: string): Observable<Option[]> {
+  return fromFetch<Record<string, string>[]>(`${URL}?n=${search}`, {
+    selector: (res) => res.json(),
+  }).pipe(map((res) => res.map(({id, name}) => ({label: name, value: id}))))
+}
+```
+
+## Demo
+
+Finally, here is a demo of the full debounced search input built with Shadcn
+
+<StackBlitz id="reactive-search-shadcn" view="preview" clickToLoad={true} />

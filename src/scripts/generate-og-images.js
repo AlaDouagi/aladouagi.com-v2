@@ -1,4 +1,4 @@
-import {basename} from 'node:path'
+import {parse} from 'node:path'
 import {readdir, writeFile} from 'node:fs/promises'
 import {waitUntilUsedOnHost} from 'tcp-port-used'
 
@@ -22,7 +22,7 @@ async function downloadFile(url, outputPath) {
 
 async function getBlogPostsSlugs() {
   return await readdir(new URL(BLOG_POST_DIRECTORY_PATH, import.meta.url)).then(
-    (files) => files.map((f) => basename(f, '.md')),
+    (files) => files.map((f) => parse(f).name),
   )
 }
 
