@@ -15,6 +15,7 @@ specifiers:
   astro-auto-import: ^0.4.2
   husky: ^9.0.11
   lint-staged: ^15.2.7
+  logrocket: ^8.1.0
   prettier: 3.3.2
   prettier-plugin-astro: ^0.14.0
   tailwindcss: ^3.4.4
@@ -32,6 +33,7 @@ dependencies:
   '@vercel/og': 0.6.2
   astro: 4.11.5_r7w62ousee6qg7fpfxptxxmvra
   astro-auto-import: 0.4.2_astro@4.11.5
+  logrocket: 8.1.0
   tailwindcss: 3.4.4
   typescript: 5.5.3
 
@@ -3029,6 +3031,10 @@ packages:
       strip-ansi: 7.1.0
       wrap-ansi: 9.0.0
     dev: true
+
+  /logrocket/8.1.0:
+    resolution: {integrity: sha512-0PRv9lnS90KBrL3mfiQzcKEPvNT3N55pRN0PRe/q3DqWFQbIW1p72MmMp9a3Qi9la6o+TXri7r68ZE0AM7vsDA==}
+    dev: false
 
   /longest-streak/3.1.0:
     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
