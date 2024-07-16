@@ -107,6 +107,7 @@ const fullCanonicalUrl = `${origin}${canonicalUrl}`
   .tags {
     display: flex;
     gap: 0.5rem;
+    @apply max-w-96 lg:max-w-max overflow-x-auto;
   }
 
   .description {
@@ -115,8 +116,8 @@ const fullCanonicalUrl = `${origin}${canonicalUrl}`
   }
 
   .content {
-    max-width: 65ch;
     margin-inline: auto;
+    @apply max-w-full md:max-w-[65ch];
   }
 
   .content > :global(* + *) {
