@@ -15,7 +15,6 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [
     tailwind(),
-    mdx(),
     qwikdev(),
     AutoImport({
       imports: [
@@ -24,5 +23,6 @@ export default defineConfig({
         },
       ],
     }),
+    mdx(),
   ],
 })
