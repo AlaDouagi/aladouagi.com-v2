@@ -142,7 +142,7 @@ export async function GET({props, request}: Props) {
     fonts: [
       {
         name: 'Kaisei Tokumin',
-        data: FontBold.buffer,
+        data: FontBold,
         style: 'normal',
       },
     ],
