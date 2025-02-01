@@ -1,8 +1,8 @@
 import {defineConfig} from 'astro/config'
-import vercel from '@astrojs/vercel/static'
-import tailwind from '@astrojs/tailwind'
+import vercel from '@astrojs/vercel'
 import mdx from '@astrojs/mdx'
 import AutoImport from 'astro-auto-import'
+import tailwindcss from '@tailwindcss/vite'
 
 import qwikdev from '@qwikdev/astro'
 
@@ -13,8 +13,10 @@ export default defineConfig({
   trailingSlash: 'never',
   output: 'static',
   adapter: vercel(),
+  vite: {
+    plugins: [tailwindcss()],
+  },
   integrations: [
-    tailwind(),
     qwikdev(),
     AutoImport({
       imports: [

@@ -60,7 +60,7 @@ export async function GET({props, request}: Props) {
               letterSpacing: '-0.05em',
               fontStyle: 'normal',
               color: 'white',
-              lineHeight: '60px',
+              lineHeight: '65px',
               whiteSpace: 'pre-wrap',
               margin: 'auto 95px',
             },
