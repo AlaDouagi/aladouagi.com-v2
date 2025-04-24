@@ -28,7 +28,7 @@ const {data, slug} = Astro.props.project
     font-size: var(--text-lg);
     font-weight: 500;
     transition: box-shadow var(--theme-transition);
-    @apply h-72 md:h-96;
+    @apply min-h-72 md:min-h-96 w-full;
   }
 
   .card:hover {
@@ -44,7 +44,6 @@ const {data, slug} = Astro.props.project
 
   @media (min-width: 50em) {
     .card {
-      height: 22rem;
       border-radius: 1.5rem;
     }
 

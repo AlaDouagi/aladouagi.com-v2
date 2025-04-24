@@ -65,7 +65,7 @@ const projects = (await getCollection('blog'))
           <Grid variant="offset">
             {
               projects.map((project) => (
-                <li>
+                <li class="flex">
                   <PortfolioPreview project={project} />
                 </li>
               ))
