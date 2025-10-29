@@ -1,4 +1,4 @@
-import {defineConfig} from 'astro/config'
+import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
 import AutoImport from 'astro-auto-import'
 import tailwindcss from '@tailwindcss/vite'
@@ -11,6 +11,11 @@ export default defineConfig({
   trailingSlash: 'never',
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      watch: {
+        usePolling: true,
+      },
+    },
   },
   integrations: [
     qwikdev(),
